@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sport Tribune Live Scores</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .match {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>Sport Tribune Live Scores</h1>
+  <div id="scores">Loading live matches...</div>
+
+  <script>
+    const apiKey = "56fb27537946e0b0da9cdebe180d4b71";
+
+    fetch("https://v3.football.api-sports.io/fixtures?live=all", {
+      method: "GET",
+      headers: {
+        "x-apisports-key": apiKey
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      const scoresDiv = document.getElementById("scores");
+      scoresDiv.innerHTML = "";
+
+      if (data.response.length === 0) {
+        scoresDiv.innerHTML = "<p>No live matches right now.</p>";
+        return;
+      }
+
+      data.response.forEach(match => {
+        const div = document.createElement("div");
+        div.className = "match";
+        div.innerHTML = `
+          <strong>${match.teams.home.name}</strong> 
+          ${match.goals.home} - ${match.goals.away} 
+          <strong>${match.teams.away.name}</strong><br>
+          Status: ${match.fixture.status.long}
+        `;
+        scoresDiv.appendChild(div);
+      });
+    })
+    .catch(err => {
+      document.getElementById("scores").innerHTML = "<p>Error loading scores.</p>";
+      console.error(err);
+    });
+  </script>
+</body>
+</html>
