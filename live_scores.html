@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Football Scores</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      text-align: center;
+    }
+    header {
+      background: #1e1e1e;
+      padding: 15px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #00ff99;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    #matches {
+      padding: 20px;
+    }
+    .match-card {
+      background: #1f1f1f;
+      margin: 15px auto;
+      padding: 15px;
+      border-radius: 10px;
+      max-width: 500px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.7);
+    }
+    .team {
+      display: flex;
+      justify-content: space-between;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .score {
+      font-size: 24px;
+      font-weight: bold;
+      color: #00ff99;
+    }
+    footer {
+      background: #1e1e1e;
+      padding: 10px;
+      font-size: 14px;
+      color: #777;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header>⚽ Live Football Scores</header>
+  <div id="matches">
+    <div class="match-card">
+      <div class="team">
+        <span>Arsenal</span>
+        <span>vs</span>
+        <span>Chelsea</span>
+      </div>
+      <div class="score">2 - 1</div>
+      <div>78'</div>
+    </div>
+    <div class="match-card">
+      <div class="team">
+        <span>Barcelona</span>
+        <span>vs</span>
+        <span>Real Madrid</span>
+      </div>
+      <div class="score">1 - 1</div>
+      <div>HT</div>
+    </div>
+  </div>
+  <footer>Powered by API-FOOTBALL</footer>
+</body>
+</html>
