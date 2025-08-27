@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Football Scores</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      text-align: center;
+    }
+    header {
+      background-color: #1f1f1f;
+      padding: 15px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #00ffcc;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+    #loading {
+      margin-top: 40px;
+      font-size: 18px;
+      color: #bbbbbb;
+    }
+    .score-card {
+      background-color: #1e1e1e;
+      margin: 15px auto;
+      padding: 15px;
+      border-radius: 10px;
+      max-width: 600px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    }
+    .teams {
+      font-size: 18px;
+      font-weight: bold;
+      color: #ffffff;
+    }
+    .score {
+      font-size: 24px;
+      margin-top: 8px;
+      color: #00ffcc;
+    }
+    footer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #888888;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>⚽ Live Football Scores</header>
+  <div id="loading">Fetching live scores…</div>
+  <div id="scores"></div>
+  <footer>Powered by API-FOOTBALL</footer>
+
+  <script>
+    const apiKey = "56fb27537946e0b0da9cdebe180d4b71";
+    const scoresDiv = document.getElementById("scores");
+    const loadingDiv = document.getElementById("loading");
+
+    async function fetchScores() {
+      loadingDiv.style.display = "block";
+      scoresDiv.innerHTML = "";
+      try {
+        const response = await fetch("https://v3.football.api-sports.io/fixtures?live=all", {
+          method: "GET",
+          headers: {
+            "x-apisports-key": apiKey
+          }
+        });
+        const data = await response.json();
+        loadingDiv.style.display = "none";
+        if (data.response && data.response.length > 0) {
+          data.response.forEach(match => {
+            const home = match.teams.home.name;
+            const away = match.teams.away.name;
+            const homeScore = match.goals.home;
+            const awayScore = match.goals.away;
+            const card = document.createElement("div");
+            card.className = "score-card";
+            card.innerHTML = `
+              <div class="teams">${home} vs ${away}</div>
+              <div class="score">${homeScore} - ${awayScore}</div>
+            `;
+            scoresDiv.appendChild(card);
+          });
+        } else {
+          scoresDiv.innerHTML = "<p>No live matches right now.</p>";
+        }
+      } catch (error) {
+        loadingDiv.style.display = "none";
+        scoresDiv.innerHTML = "<p>Error fetching scores. Please try again later.</p>";
+      }
+    }
+
+    // Fetch immediately, then refresh every 60 seconds
+    fetchScores();
+    setInterval(fetchScores, 60000);
+  </script>
+</body>
+</html>
